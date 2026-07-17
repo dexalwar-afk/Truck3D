@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>अशोक लेलैंड - 3D चेसिस असेंबली</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+        body { background-color: #0b0f19; color: #ffffff; overflow-x: hidden; height: 400vh; }
+        header { position: fixed; top: 0; width: 100%; padding: 15px; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: rgba(11, 15, 25, 0.9); border-bottom: 1px solid rgba(59, 130, 246, 0.2); }
+        .logo { font-weight: bold; font-size: 1.1rem; color: #3b82f6; }
+        .status { background: #1e293b; padding: 5px 10px; border-radius: 15px; font-size: 0.8rem; border: 1px solid #3b82f6; }
+        .viewport-3d { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center; perspective: 1000px; z-index: 1; }
+        .scene { width: 300px; height: 100px; transform-style: preserve-3d; transform: rotateX(60deg) rotateZ(-45deg); transition: transform 0.1s linear; }
+        .chassis-frame { position: absolute; width: 100%; height: 20px; border: 6px solid #475569; border-radius: 4px; transform-style: preserve-3d; background: rgba(71, 85, 105, 0.2); }
+        .chassis-frame::before { content: ''; position: absolute; width: 100%; height: 100%; background: linear-gradient(90deg, transparent 10%, #475569 10%, #475569 15%, transparent 15%, transparent 45%, #475569 45%, #475569 50%, transparent 50%, transparent 80%, #475569 80%, #475569 85%, transparent 85%); }
+        .engine-block { position: absolute; top: -10px; left: 30px; width: 60px; height: 40px; background: #ea580c; border: 2px solid #ff7829; border-radius: 4px; transform: translateZ(150px); opacity: 0; transition: transform 0.3s ease-out, opacity 0.3s; }
+        .axle { position: absolute; width: 10px; height: 80px; background: #1e293b; top: -30px; transform: translateZ(-100px); opacity: 0; transition: transform 0.3s ease-out, opacity 0.3s; }
+        .axle-front { left: 40px; }
+        .axle-rear { right: 40px; }
+        .wheel { position: absolute; width: 35px; height: 20px; background: #111827; border: 3px solid #374151; border-radius: 5px; opacity: 0; transition: transform 0.4s ease-out, opacity 0.4s; }
+        .w-front-left { top: -55px; left: 28px; transform: translateX(-100px); }
+        .w-front-right { top: 55px; left: 28px; transform: translateX(-100px); }
+        .w-rear-left { top: -55px; right: 28px; transform: translateX(100px); }
+        .w-rear-right { top: 55px; right: 28px; transform: translateX(100px); }
+        .info-container { position: relative; z-index: 10; pointer-events: none; }
+        .step-box { height: 100vh; display: flex; align-items: center; padding: 20px; }
+        .card { background: rgba(15, 23, 42, 0.9); border: 1px solid #3b82f6; padding: 20px; border-radius: 12px; max-width: 320px; backdrop-filter: blur(5px); pointer-events: auto; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+        .card h2 { color: #3b82f6; font-size: 1.3rem; margin-bottom: 8px; }
+        .card p { color: #cbd5e1; font-size: 0.9rem; line-height: 1.5; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">ASHOK LEYLAND | ALWAR</div>
+        <div class="status" id="progress-tag">प्रोग्रेस: 0%</div>
+    </header>
+    <div class="viewport-3d">
+        <div class="scene" id="truck-scene">
+            <div class="chassis-frame"></div>
+            <div class="engine-block" id="engine"></div>
+            <div class="axle axle-front" id="axle1"></div>
+            <div class="axle axle-rear" id="axle2"></div>
+            <div class="wheel w-front-left" id="wheel1"></div>
+            <div class="wheel w-front-right" id="wheel2"></div>
+            <div class="wheel w-rear-left" id="wheel3"></div>
+            <div class="wheel w-rear-right" id="wheel4"></div>
+        </div>
+    </div>
+    <div class="info-container">
+        <div class="step-box"><div class="card"><h2>चरण 1: लैडर फ्रेम चेसिस</h2><p>अशोक लेलैंड का मुख्य हाई-स्ट्रेंथ स्टील फ्रेम लोड हो चुका है। नीचे स्क्रॉल करके इंजन जोड़ें।</p></div></div>
+        <div class="step-box" style="justify-content: flex-end;"><div class="card"><h2>चरण 2: इंडस्ट्रियल इंजन</h2><p>स्क्रॉल करते ही भारी-भरकम डीजल इंजन हवा से नीचे आकर चेसिस के अगले हिस्से में फिट हो गया है।</p></div></div>
+        <div class="step-box"><div class="card"><h2>चरण 3: फ्रंट और रियर एक्सल</h2><p>अब नीचे से दोनों मजबूत एक्सल (Axles) आकर सस्पेंशन बीम के साथ लॉक हो चुके हैं।</p></div></div>
+        <div class="step-box" style="justify-content: flex-end;"><div class="card"><h2>चरण 4: हेवी-ड्यूटी टायर्स</h2><p>असेंबली पूरी हुई! चारों टायर्स ने चेसिस को ग्रिप कर लिया है। साधारण चेसिस अब चलने के लिए तैयार है।</p></div></div>
+    </div>
+    <script>
+        window.addEventListener('scroll', () => {
+            const scrollPercent = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+            document.getElementById('progress-tag').innerText = `प्रोग्रेस: ${Math.round(scrollPercent * 100)}%`;
+            const scene = document.getElementById('truck-scene');
+            scene.style.transform = `rotateX(60deg) rotateZ(${-45 - (scrollPercent * 180)}deg)`;
+            const engine = document.getElementById('engine');
+            const axle1 = document.getElementById('axle1');
+            const axle2 = document.getElementById('axle2');
+            const w1 = document.getElementById('wheel1'), w2 = document.getElementById('wheel2'), w3 = document.getElementById('wheel3'), w4 = document.getElementById('wheel4');
+            if(scrollPercent > 0.2) { engine.style.transform = 'translateZ(15px)'; engine.style.opacity = '1'; }
+            else { engine.style.transform = 'translateZ(150px)'; engine.style.opacity = '0'; }
+            if(scrollPercent > 0.45) { axle1.style.transform = 'translateZ(-10px)'; axle2.style.transform = 'translateZ(-10px)'; axle1.style.opacity = '1'; axle2.style.opacity = '1'; }
+            else { axle1.style.transform = 'translateZ(-100px)'; axle2.style.transform = 'translateZ(-100px)'; axle1.style.opacity = '0'; axle2.style.opacity = '0'; }
+            if(scrollPercent > 0.7) {
+                w1.style.transform = 'translateX(0) translateZ(-10px)'; w2.style.transform = 'translateX(0) translateZ(-10px)'; w3.style.transform = 'translateX(0) translateZ(-10px)'; w4.style.transform = 'translateX(0) translateZ(-10px)';
+                w1.style.opacity = '1'; w2.style.opacity = '1'; w3.style.opacity = '1'; w4.style.opacity = '1';
+            } else {
+                w1.style.transform = 'translateX(-100px)'; w2.style.transform = 'translateX(-100px)'; w3.style.transform = 'translateX(100px)'; w4.style.transform = 'translateX(100px)';
+                w1.style.opacity = '0'; w2.style.opacity = '0'; w3.style.opacity = '0'; w4.style.opacity = '0';
+            }
+        });
+    </script>
+</body>
+</html>
